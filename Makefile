@@ -2,7 +2,7 @@
 
 # Define environment variables
 export REMOTE_URL=git@github.com:quality-specialist/seventh-action-react-demo.git
-DEFAULT_COMMIT_MESSAGE="Initial Commit"
+DEFAULT_COMMIT_MESSAGE="Sample Commit"
 DEFAULT_BRANCH_NAME="main"
 
 # Use provided values or defaults
@@ -54,8 +54,8 @@ gcm:
 
 # Git push
 gpu:
-	@echo "Pushing changes to remote repository..."
-	docker-compose exec myapp git push origin main
+	@echo "Pushing changes to remote repository on branch ${b}..."
+	docker-compose exec myapp git push origin ${b}
 
 # Git pull
 gpl:
@@ -82,9 +82,9 @@ git:
 	@echo "Git-related Makefile goals:"
 	@echo "  gst   - Git status"
 	@echo "  gad   - Git add"
-	@echo "  gcm   - Git commit (use m)"
-	@echo "  gpu   - Git push"
+	@echo "  gcm   - Git commit (use m, default="Sample Commit")"
+	@echo "  gpu   - Git push (use b, default=main)"
 	@echo "  gpl   - Git pull"
 	@echo "  glg   - Git log"
-	@echo "  gck   - Git checkout (use b)"
-	@echo "  gnb   - Git checkout -b (create new branch, use b)"
+	@echo "  gck   - Git checkout (use b, default=main)"
+	@echo "  gnb   - Git checkout -b (create new branch, use b, default=main)"
