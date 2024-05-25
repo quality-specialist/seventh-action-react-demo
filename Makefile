@@ -5,6 +5,10 @@ export REMOTE_URL=git@github.com:quality-specialist/seventh-action-react-demo.gi
 DEFAULT_COMMIT_MESSAGE="Initial Commit"
 DEFAULT_BRANCH_NAME="main"
 
+# Use provided values or defaults
+m ?= $(DEFAULT_COMMIT_MESSAGE)
+b ?= $(DEFAULT_BRANCH_NAME)
+
 # Define targets
 
 .PHONY: all build up exec clean gst gad gpu gpl gcm glg gck gnb
@@ -35,43 +39,43 @@ clean:
 
 # Git status
 gst:
-	@echo "Checking status of git repositories..."
+	@echo "Checking status of git repository..."
 	docker-compose exec myapp git status
 
 # Git add
 gad:
-	@echo "Adding changes to git repositories..."
+	@echo "Adding changes to git repository..."
 	docker-compose exec myapp git add -A
 
 # Git commit (gcm)
 gcm:
-	@echo "Committing changes to git repositories..."
-	docker-compose exec myapp git commit -m "${m=$(DEFAULT_COMMIT_MESSAGE)}"
+	@echo "Committing changes to git repository..."
+	docker-compose exec myapp git commit -m "${m}"
 
 # Git push
 gpu:
-	@echo "Pushing changes to remote repositories..."
+	@echo "Pushing changes to remote repository..."
 	docker-compose exec myapp git push origin main
 
 # Git pull
 gpl:
-	@echo "Pulling changes from remote repositories..."
+	@echo "Pulling changes from remote repository..."
 	docker-compose exec myapp git pull origin main
 
 # Git log
 glg:
-	@echo "Fetching git log of repositories..."
+	@echo "Fetching git log of repository..."
 	docker-compose exec myapp git log
 
 # Git checkout (gck)
 gck:
-	@echo "Checking out to branch ${b=$(DEFAULT_BRANCH_NAME)}..."
-	docker-compose exec myapp git checkout ${b=$(DEFAULT_BRANCH_NAME)}
+	@echo "Checking out to branch ${b}..."
+	docker-compose exec myapp git checkout ${b}
 
 # Git checkout -b (gnb)
 gnb:
-	@echo "Creating and checking out to new branch ${b=$(DEFAULT_BRANCH_NAME)}..."
-	docker-compose exec myapp git checkout -b ${b=$(DEFAULT_BRANCH_NAME)}
+	@echo "Creating and checking out to new branch ${b}..."
+	docker-compose exec myapp git checkout -b ${b}
 
 # List of Git-related goals
 git:
