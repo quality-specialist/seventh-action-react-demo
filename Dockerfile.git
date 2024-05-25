@@ -1,0 +1,37 @@
+FROM ubuntu:24.04
+
+# Install necessary packages
+RUN apt-get update && apt-get install -y \
+    git \
+    openssh-client
+
+# Use Docker secrets to add SSH key
+RUN --mount=type=secret,id=ssh_key \
+    mkdir -p /root/.ssh && \
+    cp /run/secrets/ssh_key /root/.ssh/id_rsa && \
+    chmod 600 /root/.ssh/id_rsa
+
+# Configure SSH
+RUN echo "Host github.com\n\
+    User git\n\
+    IdentityFile /root/.ssh/id_rsa\n" >> /root/.ssh/config
+
+# Set Git global config if needed
+RUN git config --global user.name "Quality Specialist"
+RUN git config --global user.email "qatoolist@outlook.com"
+
+
+WORKDIR /repo
+
+ARG REMOTE_URL
+RUN if [ ! -d ".git" ]; then \
+        git init && \
+        git remote add origin $REMOTE_URL && \
+        echo "Git repository initialized and remote set."; \
+    else \
+        git remote set-url origin $REMOTE_URL && \
+        echo "Git repository already initialized, remote URL updated."; \
+    fi
+
+# Verify Git repository setup
+RUN git status

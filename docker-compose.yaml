@@ -1,0 +1,23 @@
+services:
+  myapp:
+    build:
+      context: .
+      dockerfile: Dockerfile.git
+      args:
+        REMOTE_URL: ${REMOTE_URL}
+      secrets:
+        - ssh_key
+      tags:
+        - quality_specialist:latest
+    environment:
+      - REMOTE_URL=${REMOTE_URL}
+    volumes:
+      - .:/repo
+    entrypoint: ["/repo/entrypoint.sh"]
+    stdin_open: true
+    tty: true
+    command: /bin/bash
+
+secrets:
+  ssh_key:
+    file: /Users/winhill/.ssh/id_rsa_quality_specialist
