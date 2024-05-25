@@ -49,7 +49,7 @@ gad:
 
 # Git commit (gcm)
 gcm:
-	@echo "Committing changes to git repository..."
+	@echo "Committing changes to git repository with message ${m} ..."
 	docker-compose exec myapp git commit -m "${m}"
 
 # Git push
@@ -77,6 +77,17 @@ gnb:
 	@echo "Creating and checking out to new branch ${b}..."
 	docker-compose exec myapp git checkout -b ${b}
 
+# Git add, commit, push (gacp)
+gacp:
+	@echo "Adding changes to git repository..."
+	docker-compose exec myapp git add -A
+
+	@echo "Committing changes message ${m} ..."
+	docker-compose exec myapp git commit -m "${m}"  || true
+
+	@echo "Pushing changes on branch ${b}..."
+	docker-compose exec myapp git push origin ${b}
+
 # List of Git-related goals
 git:
 	@echo "Git-related Makefile goals:"
@@ -88,3 +99,4 @@ git:
 	@echo "  glg   - Git log"
 	@echo "  gck   - Git checkout (use b, default=main)"
 	@echo "  gnb   - Git checkout -b (create new branch, use b, default=main)"
+	@echo "  gacp  - Git add, commit, push (use m and b)"
